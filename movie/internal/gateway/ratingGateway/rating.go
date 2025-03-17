@@ -4,19 +4,22 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"math/rand"
 	"movie-app.com/movie/internal/gateway"
+	"movie-app.com/pkg/discovery"
 	"movie-app.com/rating/pkg/ratingmodel"
 	"net/http"
 )
 
 // Gateway defines an HTTP gateway for a rating service.
 type Gateway struct {
-	addr string
+	registry discovery.Registry
 }
 
 // New creates a new HTTP gateway for a rating service.
-func New(addr string) *Gateway {
-	return &Gateway{addr}
+func New(registry discovery.Registry) *Gateway {
+	return &Gateway{registry: registry}
 }
 
 // GetAggregatedRating returns the aggregated rating for a
@@ -24,12 +27,18 @@ func New(addr string) *Gateway {
 func (g *Gateway) GetAggregatedRating(ctx context.Context,
 	recordID ratingmodel.RecordID, recordType ratingmodel.RecordType) (float64, error) {
 
-	req, err := http.NewRequest(http.MethodGet, g.addr+"/rating", nil)
+	addrs, err := g.registry.ServiceAddresses(ctx, "metadata")
 	if err != nil {
-		return 0, err
+		return -1, err
 	}
 
-	req = req.WithContext(ctx)
+	url := "http://" + addrs[rand.Intn(len(addrs))] + "/metadata"
+	log.Printf("Calling metadata service. Request: GET " + url)
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return -1, err
+	}
 	values := req.URL.Query()
 	values.Add("id", string(recordID))
 	values.Add("type", fmt.Sprintf("%v", recordType))
@@ -59,12 +68,18 @@ func (g *Gateway) GetAggregatedRating(ctx context.Context,
 func (g *Gateway) PutRating(ctx context.Context, recordID ratingmodel.RecordID,
 	recordType ratingmodel.RecordType, rating *ratingmodel.Rating) error {
 
-	req, err := http.NewRequest(http.MethodPut, g.addr+"/rating", nil)
+	addrs, err := g.registry.ServiceAddresses(ctx, "metadata")
 	if err != nil {
 		return err
 	}
 
-	req = req.WithContext(ctx)
+	url := "http://" + addrs[rand.Intn(len(addrs))] + "/metadata"
+	log.Printf("Calling metadata service. Request: GET " + url)
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return err
+	}
 	values := req.URL.Query()
 	values.Add("id", string(recordID))
 	values.Add("type", fmt.Sprintf("%v", recordType))
