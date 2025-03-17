@@ -1,15 +1,30 @@
 # MovieApp
 
-MovieApp is a microservices-based application that provides a robust platform for managing and browsing movie-related data. This project demonstrates how to design, build, and deploy a scalable application using containerization and service discovery.
+MovieApp is a microservices-based application that provides a robust platform for managing and browsing movie-related data. This project demonstrates how to design, build, and deploy a scalable application using kubernetes , 
+in addition to that : i use protocol buffers for service communication 
 
 ## Table of Contents
 
+- [To DO](#TO-DO)
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [Architecture](#architecture)
 - [Installation](#installation)
 - [How to Run the Services with Docker](#how-to-run-the-services-with-docker)
 - [License](#license)
+
+
+## TO DO
+
+1 - replacing http with grpc communication model
+
+2 - using mysql to store services data
+
+3 - deployment with kubernetes
+
+4 - Unit and integration testing
+
+
 
 ## Project Overview
 
@@ -26,18 +41,17 @@ MovieApp is designed to offer users a seamless experience when browsing movie de
 ## Architecture
 
 The application is composed of several microservices including:
-- **Movie Service:** Handles movie data and details.
-- **User Service:** Manages user authentication and profiles.
-- **Review Service:** Processes movie reviews and ratings.
-- **Gateway Service:** Acts as a reverse proxy and API gateway.
-- **Service Discovery:** Uses Hashicorp Consul to register and manage services.
+- **Movie Service:** Handles movie data and details through communication with rating and metadata services.
+- **rating Service:** Processes movie ratings.
+- **metadata Service:** aggregate movie metadata.
+- **Service Discovery:** Uses Hashicorp Consul to register and manage services for local testing , kubernetes for production .
 
 ## Installation
 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/movieapp.git
+   git clone https://github.com/abdelrahmanShawki/Movie-services-with-kubernetes
    ```
 
 ## How to Run the Services with Docker
