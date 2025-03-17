@@ -37,7 +37,7 @@ The application is composed of several microservices including:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/movieapp.git
+   git clone https://github.com/abdelrahmanShawki/Movie-services-with-kubernetes
    ```
 
 ## How to Run the Services with Docker
