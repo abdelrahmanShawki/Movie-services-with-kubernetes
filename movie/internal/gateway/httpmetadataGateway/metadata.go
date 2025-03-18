@@ -1,4 +1,4 @@
-package metadataGateway
+package httpmetadataGateway
 
 import (
 	"context"

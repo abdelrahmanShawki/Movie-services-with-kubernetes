@@ -32,7 +32,7 @@ func (c *Controller) GetAggregatedRating(
 	ctx context.Context,
 	recordID ratingmodel.RecordID,
 	recordType ratingmodel.RecordType,
-) (float64, error) {
+) (float32, error) {
 
 	// Fetch ratings from the repository
 	ratings, err := c.repo.Get(ctx, recordID, recordType)
