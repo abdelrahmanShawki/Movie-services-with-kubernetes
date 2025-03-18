@@ -33,9 +33,9 @@ MovieApp is designed to offer users a seamless experience when browsing movie de
 ## Features
 
 - **Microservices Architecture:** Each service is containerized and runs independently.
-- **Service Discovery:** Utilizes Consul for service discovery and configuration.
-- **Dockerized Environment:** All services can be easily deployed using Docker.
-- **RESTful APIs:** Provides robust API endpoints for various functionalities.
+- **Service Discovery:** Utilizes Consul for service discovery and configuration.(kubernetes later)
+- **Dockerized Environment:** All services can be easily deployed using Docker (kubernetes later).
+- **RESTful APIs and gRPC:** Provides robust API endpoints for various functionalities.
 - **Scalability:** Designed to adapt.
 
 ## Architecture
